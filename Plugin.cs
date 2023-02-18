@@ -16,8 +16,8 @@ namespace BetterBosses
     public class CreatureManagerModTemplatePlugin : BaseUnityPlugin
     {
         internal const string ModName = "BetterBosses";
-        internal const string ModVersion = "1.0.0";
-        internal const string Author = "azumatt";
+        internal const string ModVersion = "1.1.0";
+        internal const string Author = "NoobMods";
         private const string ModGUID = Author + "." + ModName;
         private static string ConfigFileName = ModGUID + ".cfg";
         private static string ConfigFileFullPath = Paths.ConfigPath + Path.DirectorySeparatorChar + ConfigFileName;
@@ -35,29 +35,6 @@ namespace BetterBosses
             On = 1,
             Off = 0
         }
-
-        [HarmonyPatch(typeof(Character), "Awake")]
-        public class CharacterAwake_Patch
-        {
-            private static void Postfix(Character __instance)
-            {
-                //IL_0310: Unknown result type (might be due to invalid IL or missing references)
-                if (!((UnityEngine.Object)(object)__instance != null) || !((UnityEngine.Object)(object)Player.m_localPlayer != null) || !((UnityEngine.Object)(object)__instance != null) || __instance.IsPlayer())
-                {
-                    return;
-                }
-
-                if (!__instance.IsBoss())
-                {
-                    return;
-                }
-
-                MonoBehaviour.print("Boss name: " + __instance.m_name);
-                __instance.SetupMaxHealth();
-                __instance.m_nview.m_zdo.m_zdoMan.ForceSendZDO(ZNetView.Everybody, __instance.GetZDOID());
-            }
-        }
-
 
         [HarmonyPatch(typeof(Character), "SetupMaxHealth")]
         public class SetupMaxHealth_Patch
@@ -91,10 +68,16 @@ namespace BetterBosses
                     {
                         scale = bossHealthMultiplierSeekerQueen.Value;
                     }
+                    else
+                    {
+                        scale = mobsHealthMultiplier.Value;
+                    }
 
                     float health = __instance.m_health * scale;
                     health = ((health > __instance.m_health) ? health : __instance.m_health);
-                    MonoBehaviour.print("New Health: " + health);
+
+                    MonoBehaviour.print(__instance.name +  " new health: " + health);
+
                     __instance.SetMaxHealth(health);
                     return false;
                 }
@@ -114,6 +97,7 @@ namespace BetterBosses
             bossHealthMultiplierModer       = config("2 - Bosses", "4 - Moder Health Multiplier"        , 1.0f, new ConfigDescription("Increases the health of Moder with this multiplier"      , (AcceptableValueBase)(object)new AcceptableValueRange<float>(1.0f, 20.0f), Array.Empty<object>()));
             bossHealthMultiplierYagluth     = config("2 - Bosses", "5 - Yagluth Health Multiplier"      , 1.0f, new ConfigDescription("Increases the health of Moder with this multiplier"      , (AcceptableValueBase)(object)new AcceptableValueRange<float>(1.0f, 20.0f), Array.Empty<object>()));
             bossHealthMultiplierSeekerQueen = config("2 - Bosses", "6 - The Queen Health Multiplier"    , 1.0f, new ConfigDescription("Increases the health of the Queen with this multiplier"  , (AcceptableValueBase)(object)new AcceptableValueRange<float>(1.0f, 20.0f), Array.Empty<object>()));
+            mobsHealthMultiplier            = config("3 - Mobs",   "Mobs Health Multiplier"             , 1.0f, new ConfigDescription("Increases the health of the mobs with this multiplier"   , (AcceptableValueBase)(object)new AcceptableValueRange<float>(1.0f, 20.0f), Array.Empty<object>()));
 
             Assembly assembly = Assembly.GetExecutingAssembly();
             _harmony.PatchAll(assembly);
@@ -160,7 +144,8 @@ namespace BetterBosses
         private static ConfigEntry<float> bossHealthMultiplierBonemass  = null!;
         private static ConfigEntry<float> bossHealthMultiplierModer     = null!;
         private static ConfigEntry<float> bossHealthMultiplierYagluth   = null!;
-        private static ConfigEntry<float> bossHealthMultiplierSeekerQueen = null!;   
+        private static ConfigEntry<float> bossHealthMultiplierSeekerQueen = null!;
+        private static ConfigEntry<float> mobsHealthMultiplier          = null!;   
 
         private ConfigEntry<T> config<T>(string group, string name, T value, ConfigDescription description,
             bool synchronizedSetting = true)

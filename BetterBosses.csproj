@@ -58,15 +58,15 @@
       <HintPath>C:\Users\catha\AppData\Roaming\Thunderstore Mod Manager\DataFolder\Valheim\profiles\Cathanys\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="assembly_guiutils_publicized">
-      <HintPath>..\PublicLibs\assembly_guiutils_publicized.dll</HintPath>
+      <HintPath>..\_PublicLibs\assembly_guiutils_publicized.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="assembly_utils_publicized">
-      <HintPath>..\PublicLibs\assembly_utils_publicized.dll</HintPath>
+      <HintPath>..\_PublicLibs\assembly_utils_publicized.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="assembly_valheim_publicized">
-      <HintPath>..\PublicLibs\assembly_valheim_publicized.dll</HintPath>
+      <HintPath>..\_PublicLibs\assembly_valheim_publicized.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="BepInEx, Version=5.4.19.0, Culture=neutral, PublicKeyToken=null">
