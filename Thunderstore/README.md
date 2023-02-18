@@ -18,4 +18,7 @@ https://valheim.thunderstore.io/package/Azumatt/Official_BepInEx_ConfigurationMa
 ### Version 1.0.0
 - Configure the health of each of the 6 Valheim bosses with a factor ranging between 1 and 20
 
+### Version 1.1.0
+- Configure the health of the mobs with a factor ranging between 1 and 20
+
 
